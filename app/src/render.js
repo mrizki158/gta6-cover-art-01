@@ -189,6 +189,22 @@ function applyGrade(ctx, w, h, grade, t) {
   }
 }
 
+/** A neon divider where a layout's panels end and its caption band begins. */
+function drawBandDivider(ctx, layout, w, h) {
+  if (layout.band == null) return;
+  const y = layout.band * h;
+  const line = ctx.createLinearGradient(0, y, w, y);
+  line.addColorStop(0, 'rgba(34, 211, 238, 0)');
+  line.addColorStop(0.5, 'rgba(34, 211, 238, 0.9)');
+  line.addColorStop(1, 'rgba(255, 46, 136, 0)');
+  ctx.save();
+  ctx.fillStyle = line;
+  ctx.shadowColor = '#ff2e88';
+  ctx.shadowBlur = Math.max(4, h * 0.008);
+  ctx.fillRect(0, y - Math.max(1.5, h * 0.002), w, Math.max(3, h * 0.004));
+  ctx.restore();
+}
+
 /** The lettering: auto-fit Anton caption, outline, neon glow, subtitle. */
 function drawLettering(ctx, state, w, h) {
   const zone = LAYOUTS[state.layout].caption;
@@ -274,5 +290,6 @@ export function renderCover(canvas, state, images) {
   vg.addColorStop(1, 'rgba(10, 4, 18, 0.42)');
   ctx.fillStyle = vg;
   ctx.fillRect(0, 0, w, h);
+  drawBandDivider(ctx, layout, w, h);
   drawLettering(ctx, state, w, h);
 }

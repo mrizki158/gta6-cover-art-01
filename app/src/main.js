@@ -1,7 +1,7 @@
-// Wires the studio: layout and grade pickers, per-panel photo assignment with
-// drag-to-pan and zoom, editable lettering, and one-click PNG exports at the
-// three common post sizes. A `?shot=` query sets up a fixed scene for a
-// screenshot instead (./shots.js). Photos are read on this machine and never
+// Wires the studio: layout and grade pickers (six layouts, Neon Diptych
+// included), per-panel photo assignment with drag-to-pan and zoom, editable
+// lettering, and one-click PNG exports at the three common post sizes. A
+// `?shot=` query sets up a fixed scene for a screenshot instead (./shots.js). Photos are read on this machine and never
 // uploaded; the app fetches nothing from the network.
 
 import { LAYOUTS, GRADES, EXPORT_SIZES, createState, applyLayout, applyPhotoToAll, panelAt } from './scene.js';

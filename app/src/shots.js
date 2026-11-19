@@ -1,9 +1,10 @@
 // Fixed scenes for screenshots: ?shot=editor shows the studio with a sample
 // photo loaded; ?shot=cover shows the finished cover alone, filling the frame.
 // `photo` picks the sample (samples/<photo>.jpg), `caption` the words, and
-// `layout` / `grade` / `subtitle` pick the scene. window.__shotReady is set
-// once the font is in and the cover has painted, so a screenshot never catches
-// a half-drawn frame.
+// `layout` / `grade` / `subtitle` pick the scene — shot 3 is the Neon Diptych
+// cover, two tall angled panels over the caption band. window.__shotReady is
+// set once the font is in and the cover has painted, so a screenshot never
+// catches a half-drawn frame.
 
 import { LAYOUTS, GRADES, applyLayout, applyPhotoToAll } from './scene.js';
 

@@ -1,4 +1,4 @@
-// The cover's scene graph: five multi-panel layouts, each a list of polygons in
+// The cover's scene graph: six multi-panel layouts, each a list of polygons in
 // unit coordinates (0..1 across the canvas), plus where the lettering sits.
 // Everything the renderer draws comes from this one graph, so switching a layout
 // is a single click and an export re-renders the very same graph at full size.
@@ -60,6 +60,17 @@ export const LAYOUTS = {
       { points: [[0.015, 0.765], [0.325, 0.765], [0.325, 0.985], [0.015, 0.985]] },
       { points: [[0.345, 0.765], [0.655, 0.765], [0.655, 0.985], [0.345, 0.985]] },
       { points: [[0.675, 0.765], [0.985, 0.765], [0.985, 0.985], [0.675, 0.985]] },
+    ],
+  },
+  'neon-diptych': {
+    name: 'Neon Diptych',
+    blurb: 'Two tall angled panels over a caption band',
+    caption: { x: 0.5, y: 0.93, align: 'center', width: 0.92 },
+    // The caption band: panels end at this y, the lettering owns the strip below.
+    band: 0.78,
+    panels: [
+      { points: [[0, 0], [0.54, 0], [0.46, 0.78], [0, 0.78]] },
+      { points: [[0.54, 0], [1, 0], [1, 0.78], [0.46, 0.78]] },
     ],
   },
 };

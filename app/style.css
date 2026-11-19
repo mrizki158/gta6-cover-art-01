@@ -23,6 +23,8 @@ input[type=file] { font: inherit; font-weight: 400; }
 button { font: inherit; font-weight: 700; padding: 9px 12px; border: 1px solid #5b3f8f; border-radius: 8px; background: #241640; color: #f3ecff; cursor: pointer; }
 button:hover { border-color: #ff2e88; }
 button.toggle.active { background: #ff2e88; border-color: #ff2e88; color: #fff; }
+/* Six layout buttons share the row three across. */
+#layoutRow button { flex: 1 1 30%; }
 button.export { background: #ffb347; border-color: #ffb347; color: #1a0f2e; }
 button.export:hover { filter: brightness(1.1); }
 .row { display: flex; gap: 8px; }
