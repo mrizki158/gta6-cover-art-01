@@ -1,8 +1,10 @@
-// Wires the studio: layout and grade pickers (six layouts, Neon Diptych
+// Wires the studio: layout and grade pickers (seven layouts, Sunset Strip
 // included), per-panel photo assignment with drag-to-pan and zoom, editable
-// lettering, and one-click PNG exports at the three common post sizes. A
-// `?shot=` query sets up a fixed scene for a screenshot instead (./shots.js). Photos are read on this machine and never
-// uploaded; the app fetches nothing from the network.
+// lettering with a caption-size slider and an outline-width slider that work
+// on every layout, and one-click PNG exports at the three common post sizes.
+// A `?shot=` query sets up a fixed scene for a screenshot instead
+// (./shots.js). Photos are read on this machine and never uploaded; the app
+// fetches nothing from the network.
 
 import { LAYOUTS, GRADES, EXPORT_SIZES, createState, applyLayout, applyPhotoToAll, panelAt } from './scene.js';
 import { renderCover } from './render.js';
@@ -93,6 +95,12 @@ function buildToggles(containerId, entries, current, onPick) {
   }
 }
 
+/** Shows the active layout's one-line description under its picker. */
+function refreshLayoutBlurb() {
+  const blurb = document.getElementById('layoutBlurb');
+  if (blurb) blurb.textContent = LAYOUTS[state.layout].blurb;
+}
+
 /** Refreshes the "panel N of M" label and the zoom slider for the selection. */
 function refreshPanelUI() {
   const n = state.panels.length;
@@ -105,11 +113,13 @@ function refreshPanelUI() {
 
 buildToggles('layoutRow', LAYOUTS, state.layout, (id) => {
   applyLayout(state, id);
+  refreshLayoutBlurb();
   refreshPanelUI();
 });
 buildToggles('gradeRow', GRADES, state.grade, (id) => {
   state.grade = id;
 });
+refreshLayoutBlurb();
 
 const intensity = document.getElementById('intensity');
 intensity.addEventListener('input', () => {
@@ -171,6 +181,14 @@ document.getElementById('outlineToggle').addEventListener('change', (e) => {
   state.outline = e.target.checked;
   render();
 });
+// Outline width: a thin hairline or the classic heavy poster outline. It
+// scales the stroke in the renderer, so it works on every layout — Sunset
+// Strip's band caption included — and stays live with the outline toggle.
+document.getElementById('outlineWidth').addEventListener('input', (e) => {
+  state.outlineWidth = Number(e.target.value);
+  document.getElementById('outlineWidthVal').textContent = `${Math.round(state.outlineWidth * 100)}%`;
+  render();
+});
 document.getElementById('neonToggle').addEventListener('change', (e) => {
   state.neon = e.target.checked;
   render();
@@ -187,6 +205,8 @@ for (const size of EXPORT_SIZES) {
 }
 
 // Click a panel to select it; drag it to pan the photo inside its frame.
+// On Sunset Strip the thin side strip is its own panel, so clicking the
+// right edge selects the strip photo instead of the hero.
 let drag = null;
 function canvasPoint(e) {
   const rect = canvas.getBoundingClientRect();

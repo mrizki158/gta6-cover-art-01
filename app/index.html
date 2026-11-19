@@ -11,7 +11,7 @@
 <main class="app">
   <section class="controls" aria-label="Cover controls">
     <h1>Neon Sunset</h1>
-    <p class="tagline">Your photo + a caption, made into GTA-style multi-panel cover art. Original art only — no Rockstar logos, artwork or fonts. Photos stay on your machine.</p>
+    <p class="tagline">Your photo + a caption, made into GTA-style multi-panel cover art. Seven layouts — try Sunset Strip, a full-bleed hero with a caption band and a thin side strip. Original art only — no Rockstar logos, artwork or fonts. Photos stay on your machine.</p>
 
     <section class="group">
       <h2>1 · Photo</h2>
@@ -36,7 +36,8 @@
     <section class="group">
       <h2>2 · Layout</h2>
       <div class="row wrap" id="layoutRow"></div>
-      <p class="hint">Six layouts — Neon Diptych splits the cover into two tall panels over a caption band.</p>
+      <p class="hint" id="layoutBlurb">2 x 2 with a slashed seam</p>
+      <p class="hint">Seven layouts — Sunset Strip runs one photo full-bleed with a caption band and a thin side strip; Neon Diptych splits the cover into two tall panels over a caption band.</p>
     </section>
 
     <section class="group">
@@ -58,11 +59,15 @@
       <label>Caption size <span id="captionSizeVal">100%</span>
         <input id="captionSize" type="range" min="0.6" max="1.6" step="0.05" value="1">
       </label>
+      <label>Outline width <span id="outlineWidthVal">100%</span>
+        <input id="outlineWidth" type="range" min="0" max="2" step="0.1" value="1">
+      </label>
       <div class="row">
         <label class="inline">Colour <input id="captionColor" type="color" value="#ffffff"></label>
         <label class="inline"><input id="outlineToggle" type="checkbox" checked> Outline</label>
         <label class="inline"><input id="neonToggle" type="checkbox" checked> Neon glow</label>
       </div>
+      <p class="hint">Outline width works on every layout, including the Sunset Strip band caption — 0% is a flat fill, 200% the heavy poster outline.</p>
     </section>
 
     <section class="group">

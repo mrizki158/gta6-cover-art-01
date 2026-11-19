@@ -1,11 +1,19 @@
-// The cover's scene graph: six multi-panel layouts, each a list of polygons in
-// unit coordinates (0..1 across the canvas), plus where the lettering sits.
-// Everything the renderer draws comes from this one graph, so switching a layout
-// is a single click and an export re-renders the very same graph at full size.
+// The cover's scene graph: seven multi-panel layouts, each a list of polygons
+// in unit coordinates (0..1 across the canvas), plus where the lettering sits
+// and, for the banded layouts, where the caption band begins. Everything the
+// renderer draws comes from this one graph, so switching a layout is a single
+// click and an export re-renders the very same graph at full size.
 //
-// A panel is { points: [[x, y], ...] } in clockwise order. Panels are drawn in
-// order; the renderer insets each polygon a hair toward its own centroid so the
-// seams read as deliberate dark gutters instead of hairline cracks.
+// A panel is { points: [[x, y], ...] } in clockwise order. Panels are drawn
+// in order, so a later panel paints over an earlier one — that is how Sunset
+// Strip puts its thin side strip on top of the full-bleed hero photo. The
+// renderer insets each polygon a hair toward its own centroid so the seams
+// read as deliberate dark gutters instead of hairline cracks.
+//
+// A layout may carry `band` (the y where its panels end and the caption band
+// begins; the renderer paints a dark gradient band and a neon divider there)
+// and `strip` (the x where a thin vertical side strip starts, for layouts
+// whose hero runs full-bleed underneath it).
 
 /** Every layout the studio offers, keyed by id, in menu order. */
 export const LAYOUTS = {
@@ -51,8 +59,8 @@ export const LAYOUTS = {
       { points: [[0.74, 0], [1, 0], [1, 1], [0.54, 1]] },
     ],
   },
-  'sunset-strip': {
-    name: 'Sunset Strip',
+  'sunset-filmstrip': {
+    name: 'Sunset Filmstrip',
     blurb: 'Full-bleed hero over a filmstrip',
     caption: { x: 0.5, y: 0.62, align: 'center', width: 0.9 },
     panels: [
@@ -71,6 +79,19 @@ export const LAYOUTS = {
     panels: [
       { points: [[0, 0], [0.54, 0], [0.46, 0.78], [0, 0.78]] },
       { points: [[0.54, 0], [1, 0], [1, 0.78], [0.46, 0.78]] },
+    ],
+  },
+  'sunset-strip': {
+    name: 'Sunset Strip',
+    blurb: 'Full-bleed hero, caption band, thin side strip',
+    caption: { x: 0.46, y: 0.93, align: 'center', width: 0.86 },
+    // The hero photo runs edge to edge; the band owns the bottom fifth and a
+    // thin vertical strip on the right edge carries a second photo.
+    band: 0.8,
+    strip: 0.93,
+    panels: [
+      { points: [[0, 0], [1, 0], [1, 1], [0, 1]] },
+      { points: [[0.93, 0], [1, 0], [1, 0.8], [0.93, 0.8]] },
     ],
   },
 };
@@ -94,6 +115,7 @@ export const EXPORT_SIZES = [
  * A fresh cover state: the default layout, grade and lettering, and one panel
  * slot per panel of the default layout. Panel slots carry their own photo,
  * zoom and pan, so each panel can hold a different photo or share one.
+ * `outlineWidth` scales the caption outline (1 = the classic heavy outline).
  */
 export function createState() {
   return {
@@ -105,6 +127,7 @@ export function createState() {
     captionSize: 1,
     captionColor: '#ffffff',
     outline: true,
+    outlineWidth: 1,
     neon: true,
     selectedPanel: 0,
     panels: panelSlots('vice-grid', 'pier'),
@@ -123,17 +146,23 @@ export function panelSlots(layoutId, photoKey) {
 
 /**
  * Switches the layout, keeping each panel's photo where a panel of the same
- * index exists and filling new panels with the first panel's photo.
+ * index exists and filling new panels with the first panel's photo. For a
+ * banded layout the hero keeps the first photo and the strip takes the
+ * second panel's photo when one was set, so switching never blanks a panel.
  */
 export function applyLayout(state, layoutId) {
   const keep = state.panels;
   const firstPhoto = keep[0]?.photo ?? 'pier';
+  const secondPhoto = keep[1]?.photo ?? firstPhoto;
   state.layout = layoutId;
-  state.panels = LAYOUTS[layoutId].panels.map((_, i) => keep[i] ?? {
-    photo: firstPhoto,
-    zoom: 1,
-    panX: 0,
-    panY: 0,
+  state.panels = LAYOUTS[layoutId].panels.map((_, i) => {
+    if (keep[i]) return keep[i];
+    return {
+      photo: layoutId === 'sunset-strip' && i === 1 ? secondPhoto : firstPhoto,
+      zoom: 1,
+      panX: 0,
+      panY: 0,
+    };
   });
   state.selectedPanel = 0;
 }
@@ -154,7 +183,11 @@ export function pointInPanel(points, x, y) {
   return inside;
 }
 
-/** The index of the topmost panel under the unit point, or -1. */
+/**
+ * The index of the topmost panel under the unit point, or -1. Panels are
+ * checked last-drawn first, so the Sunset Strip side strip wins over the
+ * full-bleed hero beneath it on the right edge.
+ */
 export function panelAt(state, x, y) {
   const panels = LAYOUTS[state.layout].panels;
   for (let i = panels.length - 1; i >= 0; i--) {
