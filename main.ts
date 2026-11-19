@@ -4,11 +4,14 @@
 // judge reads, with the vendored make.fun library (vendor/makefun-app.ts, the
 // kit's copy, unchanged). The app itself is plain static files a desktop
 // browser loads offline — app/index.html and its ES modules, no library and no
-// network request: five multi-panel GTA-style layouts, four sunset/neon
+// network request: six multi-panel GTA-style layouts, four sunset/neon
 // grades, vendored Anton lettering, per-panel photo crop and position, and
-// one-click PNG exports at 1080 x 1080, 1080 x 1350 and 1920 x 1080. Its two
-// sample photos (app/samples/) were made for make.fun with an image model and
-// are free to use; everything else in the cover is the app's own drawing.
+// one-click PNG exports at 1080 x 1080, 1080 x 1350 and 1920 x 1080. V2 adds
+// the Neon Diptych layout — two tall angled panels over a caption band with
+// a neon divider — and re-shoots all four screenshots in the v2 session.
+// Its two sample photos (app/samples/) were made for make.fun with an image
+// model and are free to use; everything else in the cover is the app's own
+// drawing.
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
