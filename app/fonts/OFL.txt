@@ -1,8 +1,15 @@
-Copyright 2020 The Anton Project Authors (https://github.com/googlefonts/AntonFont.git)
-
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
-This license is copied below, and is also available with a FAQ at:
+Font shipped with this app: Anton-Regular.woff2
+----------------------------------------------
+Anton, Copyright 2020 The Anton Project Authors
+(https://github.com/googlefonts/AntonFont.git).
+Downloaded from the @fontsource/anton package on the jsDelivr CDN during
+the v3 build; the file next to this one is the Latin 400 weight in woff2.
+Anton is licensed under the SIL Open Font License, Version 1.1, copied in
+full below. The license is also available with a FAQ at:
 http://scripts.sil.org/OFL
+
+No other font is bundled or fetched: the app's only display face is this
+file, loaded from app/fonts/ at runtime, never over the network.
 
 
 -----------------------------------------------------------
@@ -18,7 +25,7 @@ with others.
 
 The OFL allows the licensed fonts to be used, studied, modified and
 redistributed freely as long as they are not sold by themselves. The
-fonts, including any derivative works, can be bundled, embedded, 
+fonts, including any derivative works, can be bundled, embedded,
 redistributed and/or sold with any software provided that any reserved
 names are not used by derivative works. The fonts and derivatives,
 however, cannot be released under any other type of license. The
