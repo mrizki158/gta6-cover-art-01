@@ -3,20 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Neon Sunset — GTA-style Cover Studio</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="controls" aria-label="Cover controls">
+    <h1>Neon Sunset</h1>
+    <p class="tagline">Your photo + a caption, made into GTA-style multi-panel cover art. Original art only — no Rockstar logos, artwork or fonts. Photos stay on your machine.</p>
+
+    <section class="group">
+      <h2>1 · Photo</h2>
+      <label class="file">Upload your photo
+        <input id="photoFile" type="file" accept="image/*">
+      </label>
+      <p class="hint" id="photoName">Sample: pier.jpg</p>
+      <div class="row">
+        <button id="sample-boulevard" type="button">Boulevard sample</button>
+        <button id="sample-pier" type="button">Pier sample</button>
+      </div>
+      <p class="hint" id="panelLabel">Panel 1 of 4 — click the cover to pick another</p>
+      <div class="row">
+        <button id="photoAll" type="button">Use this photo in all panels</button>
+      </div>
+      <label>Zoom <span id="zoomVal">1.00x</span>
+        <input id="zoom" type="range" min="0.8" max="3" step="0.05" value="1">
+      </label>
+      <p class="hint">Drag the cover to pan the selected panel's photo.</p>
+    </section>
+
+    <section class="group">
+      <h2>2 · Layout</h2>
+      <div class="row wrap" id="layoutRow"></div>
+    </section>
+
+    <section class="group">
+      <h2>3 · Grade</h2>
+      <div class="row wrap" id="gradeRow"></div>
+      <label>Grade intensity <span id="intensityVal">80%</span>
+        <input id="intensity" type="range" min="0" max="1" step="0.05" value="0.8">
+      </label>
+    </section>
+
+    <section class="group">
+      <h2>4 · Lettering</h2>
+      <label>Caption
+        <input id="caption" type="text" maxlength="40" value="NEON SUNSET">
+      </label>
+      <label>Subtitle
+        <input id="subtitle" type="text" maxlength="48" value="A NEON COAST STORY">
+      </label>
+      <label>Caption size <span id="captionSizeVal">100%</span>
+        <input id="captionSize" type="range" min="0.6" max="1.6" step="0.05" value="1">
+      </label>
+      <div class="row">
+        <label class="inline">Colour <input id="captionColor" type="color" value="#ffffff"></label>
+        <label class="inline"><input id="outlineToggle" type="checkbox" checked> Outline</label>
+        <label class="inline"><input id="neonToggle" type="checkbox" checked> Neon glow</label>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>5 · Export</h2>
+      <div class="row wrap" id="exportRow"></div>
+      <p id="status" role="status">Pick a photo, a layout and a grade — then export.</p>
+    </section>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <section class="preview" aria-label="Cover preview">
+    <canvas id="cover" width="900" height="900" aria-label="The cover"></canvas>
+  </section>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
