@@ -29,6 +29,9 @@ export async function runShot(shot, query, api) {
   api.state.subtitle = subtitle;
   await api.loadSample(photo);
   applyPhotoToAll(api.state, photo);
+  // Keep the "Sample:" label honest about which photo the shot loaded.
+  const photoName = document.getElementById('photoName');
+  if (photoName) photoName.textContent = `Sample: ${photo}.jpg`;
   // A second sample in the side panels keeps multi-photo covers honest.
   const other = photo === 'pier' ? 'boulevard' : 'pier';
   await api.loadSample(other);
@@ -39,6 +42,12 @@ export async function runShot(shot, query, api) {
   // the strip is visibly a second frame rather than a sliver of the hero.
   if (layout === 'sunset-strip' && api.state.panels[1]) {
     api.state.panels[1].photo = other;
+  }
+  // On a wide cover frame the full-bleed hero crops hard top and bottom, so
+  // ease its photo down a touch: the subject's face stays in frame instead
+  // of being cut by the top edge.
+  if (layout === 'sunset-strip' && api.state.panels[0]) {
+    api.state.panels[0].panY = 0.15;
   }
   api.render();
   // A shot can ask for one control group in view (e.g. focus=export shows
