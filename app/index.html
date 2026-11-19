@@ -8,79 +8,83 @@
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls" aria-label="Cover controls">
+<div class="studio">
+  <aside class="sidebar" aria-label="Cover controls">
     <h1>Neon Sunset</h1>
-    <p class="tagline">Your photo + a caption, made into GTA-style multi-panel cover art. Seven layouts — try Sunset Strip, a full-bleed hero with a caption band and a thin side strip. Original art only — no Rockstar logos, artwork or fonts. Photos stay on your machine.</p>
+    <p class="intro">Your photo + a caption, made into GTA-style multi-panel cover art. Eight layouts — try the new Vice Grid, four square photos over a caption band — plus a duotone filter and photo position presets. Original art only — no Rockstar logos, artwork or fonts. Photos stay on your machine.</p>
 
-    <section class="group">
+    <section class="panel">
       <h2>1 · Photo</h2>
-      <label class="file">Upload your photo
+      <label class="upload">Upload your photo
         <input id="photoFile" type="file" accept="image/*">
       </label>
-      <p class="hint" id="photoName">Sample: pier.jpg</p>
-      <div class="row">
-        <button id="sample-boulevard" type="button">Boulevard sample</button>
-        <button id="sample-pier" type="button">Pier sample</button>
+      <p class="note" id="photoName">Sample: pier.jpg</p>
+      <div class="cluster">
+        <button data-sample="boulevard" type="button">Boulevard sample</button>
+        <button data-sample="pier" type="button">Pier sample</button>
       </div>
-      <p class="hint" id="panelLabel">Panel 1 of 4 — click the cover to pick another</p>
-      <div class="row">
-        <button id="photoAll" type="button">Use this photo in all panels</button>
+      <p class="note" id="frameLabel">Frame 1 of 4 — click the cover to pick another</p>
+      <div class="cluster">
+        <button data-action="photo-all" type="button">Use this photo in all frames</button>
       </div>
-      <label>Zoom <span id="zoomVal">1.00x</span>
-        <input id="zoom" type="range" min="0.8" max="3" step="0.05" value="1">
+      <label>Zoom <span id="zoomValue">1.00x</span>
+        <input id="photoZoom" type="range" min="0.8" max="3" step="0.05" value="1">
       </label>
-      <p class="hint">Drag the cover to pan the selected panel's photo.</p>
+      <p class="note">Position preset</p>
+      <div class="cluster wrap" id="positionPicker"></div>
+      <p class="note">Drag the cover to pan the selected frame's photo.</p>
     </section>
 
-    <section class="group">
+    <section class="panel">
       <h2>2 · Layout</h2>
-      <div class="row wrap" id="layoutRow"></div>
-      <p class="hint" id="layoutBlurb">2 x 2 with a slashed seam</p>
-      <p class="hint">Seven layouts — Sunset Strip runs one photo full-bleed with a caption band and a thin side strip; Neon Diptych splits the cover into two tall panels over a caption band.</p>
+      <div class="cluster wrap" id="layoutPicker"></div>
+      <p class="note accent" id="layoutTagline">2 x 2 grid over a caption band</p>
+      <p class="note">Eight layouts — Vice Grid runs four square photos over a caption band; Sunset Strip runs one photo full-bleed with a caption band and a thin side strip; Neon Diptych splits the cover into two tall panels over a caption band.</p>
     </section>
 
-    <section class="group">
+    <section class="panel">
       <h2>3 · Grade</h2>
-      <div class="row wrap" id="gradeRow"></div>
-      <label>Grade intensity <span id="intensityVal">80%</span>
-        <input id="intensity" type="range" min="0" max="1" step="0.05" value="0.8">
+      <div class="cluster wrap" id="gradePicker"></div>
+      <label>Grade strength <span id="strengthValue">80%</span>
+        <input id="gradeStrength" type="range" min="0" max="1" step="0.05" value="0.8">
       </label>
+      <label class="check"><input id="duotoneSwitch" type="checkbox"> Duotone — remap the photos to the grade's two tones</label>
+      <p class="note">Duotone turns the graded photo layer into two tones — deep purple and warm amber on Vice Sunset, navy and cyan on Neon Nights — while the caption stays full-colour.</p>
     </section>
 
-    <section class="group">
+    <section class="panel">
       <h2>4 · Lettering</h2>
       <label>Caption
-        <input id="caption" type="text" maxlength="40" value="NEON SUNSET">
+        <input id="captionText" type="text" maxlength="40" value="NEON SUNSET">
       </label>
       <label>Subtitle
-        <input id="subtitle" type="text" maxlength="48" value="A NEON COAST STORY">
+        <input id="subtitleText" type="text" maxlength="48" value="A NEON COAST STORY">
       </label>
-      <label>Caption size <span id="captionSizeVal">100%</span>
-        <input id="captionSize" type="range" min="0.6" max="1.6" step="0.05" value="1">
+      <label>Caption size <span id="captionScaleValue">100%</span>
+        <input id="captionScale" type="range" min="0.6" max="1.6" step="0.05" value="1">
       </label>
-      <label>Outline width <span id="outlineWidthVal">100%</span>
-        <input id="outlineWidth" type="range" min="0" max="2" step="0.1" value="1">
+      <label>Outline width <span id="outlineScaleValue">100%</span>
+        <input id="outlineScale" type="range" min="0" max="2" step="0.1" value="1">
       </label>
-      <div class="row">
-        <label class="inline">Colour <input id="captionColor" type="color" value="#ffffff"></label>
-        <label class="inline"><input id="outlineToggle" type="checkbox" checked> Outline</label>
-        <label class="inline"><input id="neonToggle" type="checkbox" checked> Neon glow</label>
+      <div class="cluster">
+        <label class="check">Colour <input id="captionColour" type="color" value="#ffffff"></label>
+        <label class="check"><input id="outlineSwitch" type="checkbox" checked> Outline</label>
+        <label class="check"><input id="neonSwitch" type="checkbox" checked> Neon glow</label>
       </div>
-      <p class="hint">Outline width works on every layout, including the Sunset Strip band caption — 0% is a flat fill, 200% the heavy poster outline.</p>
+      <p class="note">Outline width works on every layout, including the Vice Grid band caption — 0% is a flat fill, 200% the heavy poster outline.</p>
     </section>
 
-    <section class="group">
+    <section class="panel">
       <h2>5 · Export</h2>
-      <div class="row wrap" id="exportRow"></div>
+      <div class="cluster wrap" id="exportPicker"></div>
       <p id="status" role="status">Pick a photo, a layout and a grade — then export.</p>
     </section>
-  </section>
+  </aside>
 
-  <section class="preview" aria-label="Cover preview">
+  <section class="stage" aria-label="Cover preview">
     <canvas id="cover" width="900" height="900" aria-label="The cover"></canvas>
   </section>
-</main>
+</div>
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
